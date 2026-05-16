@@ -44,7 +44,6 @@ func main() {
 
 	// Create a logger that writes to file
 	fileLogger := log.New(file, "APP: ", log.Ldate|log.Ltime|log.Lshortfile)
-	fileLogger.Println("This message is written to app.log file")
 
 	// 5. Fatal and Panic
 	fmt.Println("\n--- log.Fatal and log.Panic ---")
@@ -54,13 +53,14 @@ func main() {
 
 	// 6. Best Practice: Global Logger Setup
 	fmt.Println("\n--- Recommended Pattern ---")
-	setupLogger()
+	setupLogger(fileLogger)
 	log.Println("This uses our configured global logger")
 }
 
 // Recommended way to setup logger in real projects
-func setupLogger() {
+func setupLogger(fileLogger *log.Logger) {
 	log.SetPrefix("DEEP DIVE: ")
 	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
 	log.SetOutput(os.Stdout) // You can change to multi-writer (file + stdout)
+	fileLogger.Println("This message is written to app.log file")
 }
